@@ -9,7 +9,16 @@ export const createContactSchema = Joi.object({
     .max(20)
     .pattern(/^\+?[1-9]\d{1,14}$/)
     .required(),
-  email: Joi.string().email().required(),
+  email: Joi.string()
+    .email({
+      minDomainSegments: 2,
+      tlds: { allow: ['com', 'net', 'org'] },
+    })
+    .messages({
+      'string.email': 'Email must be a valid email address',
+      'string.empty': 'Email cannot be empty',
+      'any.required': 'Email is required',
+    }),
   isFavourite: Joi.boolean().default(false),
   contactType: Joi.string()
     .valid('work', 'home', 'personal')
