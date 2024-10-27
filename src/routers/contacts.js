@@ -16,7 +16,7 @@ import { isValidId } from '../middlewares/isValidId.js';
 
 const router = Router();
 
-router.use(authenticate);
+//router.use(authenticate);
 
 router.get('/contacts', ctrlWrapper(getContactsController));
 
