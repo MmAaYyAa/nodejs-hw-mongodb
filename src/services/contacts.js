@@ -23,8 +23,6 @@ export const getAllContacts = async ({
     contactsQuery.where('isFavourite').equals(filter.isFavourite);
   }
 
-  contactsQuery.where('userId').equals(userId);
-
   const [contactsCount, contacts] = await Promise.all([
     ContactsCollection.find({ userId }).merge(contactsQuery).countDocuments(),
     contactsQuery
@@ -41,8 +39,8 @@ export const getAllContacts = async ({
   };
 };
 
-export const getContactById = async (contactId) => {
-  const contact = await ContactsCollection.findById(contactId);
+export const getContactById = async (contactId, userId) => {
+  const contact = await ContactsCollection.findOne({ _id: contactId, userId });
   return contact;
 };
 
@@ -51,16 +49,17 @@ export const createContact = async (payload) => {
   return contact;
 };
 
-export const deleteContact = async (contactId) => {
+export const deleteContact = async (contactId, userId) => {
   const contact = await ContactsCollection.findOneAndDelete({
     _id: contactId,
+    userId,
   });
   return contact;
 };
 
-export const updateContact = async (contactId, payload) => {
+export const updateContact = async (contactId, payload, userId) => {
   const rawResult = await ContactsCollection.findOneAndUpdate(
-    { _id: contactId },
+    { _id: contactId, userId },
     payload,
     {
       new: true,
