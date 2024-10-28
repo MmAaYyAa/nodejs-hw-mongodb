@@ -25,8 +25,8 @@ export const setupServer = () => {
     }),
   );
 
-  app.use(contactsRouter);
   app.use('/auth', usersRouter);
+  app.use(contactsRouter);
 
   app.use('*', notFoundHandler);
 

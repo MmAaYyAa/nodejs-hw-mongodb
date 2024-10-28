@@ -15,28 +15,32 @@ import { isValidId } from '../middlewares/isValidId.js';
 
 const router = Router();
 
-router.get('/', authenticate, ctrlWrapper(getContactsController));
+router.get('/contacts', authenticate, ctrlWrapper(getContactsController));
 
 router.get(
   '/contacts/:contactId',
+  authenticate,
   isValidId,
   ctrlWrapper(getContactByIdController),
 );
 
 router.post(
   '/contacts',
+  authenticate,
   validateBody(createContactSchema),
   ctrlWrapper(createContactController),
 );
 
 router.delete(
   '/contacts/:contactId',
+  authenticate,
   isValidId,
   ctrlWrapper(deleteContactController),
 );
 
 router.patch(
   '/contacts/:contactId',
+  authenticate,
   isValidId,
   validateBody(updateContactSchema),
   ctrlWrapper(patchContactController),
