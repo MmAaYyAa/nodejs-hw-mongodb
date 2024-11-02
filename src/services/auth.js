@@ -123,6 +123,7 @@ export const requestResetPassword = async (email) => {
     );
   }
 };
+
 export const resetPassword = async (password, token) => {
   try {
     const decoded = jwt.verify(token, env('JWT_SECRET'));
@@ -141,6 +142,8 @@ export const resetPassword = async (password, token) => {
     await UsersCollection.findByIdAndUpdate(user._id, {
       password: hashedPassword,
     });
+
+    await SessionsCollection.deleteMany({ userId: user._id });
   } catch (error) {
     if (
       error.name === 'JsonWebTokenError' ||
