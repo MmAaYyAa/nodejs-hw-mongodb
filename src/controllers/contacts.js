@@ -12,6 +12,8 @@ import {
   updateContact,
 } from '../services/contacts.js';
 
+import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+
 export const getContactsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
   const { sortBy, sortOrder } = parseSortParams(req.query);
@@ -75,7 +77,26 @@ export const deleteContactController = async (req, res, next) => {
 export const patchContactController = async (req, res, next) => {
   const { contactId } = req.params;
   const photo = req.file;
-  const result = await updateContact(contactId, req.body, req.user._id);
+
+  if (!photo) {
+    console.log('No file uploaded');
+    return res.status(400).json({ message: 'No file uploaded' });
+  }
+
+  let photoUrl;
+
+  if (photo) {
+    photoUrl = await saveFileToUploadDir(photo);
+  }
+
+  const result = await updateContact(
+    contactId,
+    {
+      ...req.body,
+      photo: photoUrl,
+    },
+    req.user._id,
+  );
 
   if (!result) {
     throw createHttpError(404, 'Contact not found');
