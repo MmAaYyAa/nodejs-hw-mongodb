@@ -5,7 +5,6 @@ required:
   - phoneNumber
   - contactType
   - userId
-  - photo
 properties:
   _id:
     description: "Contact's id"

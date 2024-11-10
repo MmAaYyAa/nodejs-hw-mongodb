@@ -20,8 +20,8 @@ requestBody:
             example: 'Maes'
           phoneNumber:
             description: "Contact's phone number"
-            type: integer
-            example: 326598741
+            type: string
+            example: '326598741'
           contactType:
             description: "Contact's type"
             type: string
@@ -30,7 +30,7 @@ requestBody:
           email:
             description: "Contact's email"
             type: string
-            example: maes@gmail.com
+            example: 'maes@gmail.com'
           isFavourite:
             description: 'Favourite contact'
             type: boolean
