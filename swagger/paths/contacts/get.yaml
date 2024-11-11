@@ -34,6 +34,12 @@ parameters:
       type: string
       enum: ['work', 'home', 'personal']
       example: home
+  - in: query
+    name: isFavourite
+    schema:
+      type: boolean
+      example: false
+      description: 'Filter by favorite status'
 responses:
   '200':
     description: Successfully found contacts!
@@ -87,3 +93,5 @@ responses:
                   example: true
   '401':
     $ref: '../../components/responses/401.yaml'
+  '404':
+    $ref: '../../components/responses/404.yaml'

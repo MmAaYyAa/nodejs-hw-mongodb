@@ -12,6 +12,9 @@
   "servers": [
     {
       "url": "http://127.0.0.1:3000"
+    },
+    {
+      "url": "https://mycontacts-app.onrender.com"
     }
   ],
   "tags": [
@@ -88,6 +91,15 @@
               ],
               "example": "home"
             }
+          },
+          {
+            "in": "query",
+            "name": "isFavourite",
+            "schema": {
+              "type": "boolean",
+              "example": false,
+              "description": "Filter by favorite status"
+            }
           }
         ],
         "responses": {
@@ -162,6 +174,9 @@
           },
           "401": {
             "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
           }
         }
       },
@@ -263,7 +278,7 @@
         }
       }
     },
-    "/contacts/{id}": {
+    "/contacts/{contactId}": {
       "get": {
         "tags": [
           "Contacts"
@@ -279,7 +294,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "contactId",
             "required": true,
             "schema": {
               "type": "string",
@@ -333,7 +348,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "contactId",
             "description": "The id of the contact to be updated",
             "required": true,
             "schema": {
@@ -343,7 +358,6 @@
           }
         ],
         "requestBody": {
-          "required": true,
           "content": {
             "multipart/form-data": {
               "schema": {
@@ -445,7 +459,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "contactId",
             "required": true,
             "description": "The ID of the contact to be deleted",
             "schema": {
@@ -455,21 +469,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Contact deleted successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Contact deleted successfully"
-                    }
-                  }
-                }
-              }
-            }
+          "204": {
+            "description": "Contact deleted successfully"
           },
           "404": {
             "$ref": "#/components/responses/404"
